@@ -1,3 +1,4 @@
+require("dotenv").config();
 import cors from "cors";
 import express from "express";
 import { trpcExpress } from "@elearning-fliki/trpc-server";
