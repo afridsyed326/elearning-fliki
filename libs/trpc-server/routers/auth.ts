@@ -1,14 +1,25 @@
 import { UserModel } from "@elearning-fliki/db/models/UserModel";
-import { publicProcedure, router } from "../trpc";
+import { privateProcedure, publicProcedure, router } from "../trpc";
 import { withMongoConnection } from "../middleware/dbConnection";
-import { formSchemaRegister } from "@elearning-fliki/forms/src/schemas";
+import {
+  formSchemaRegister,
+  formSchemaSignIn,
+  formSchemaUser,
+  zodSchemaRegisterWithProvider,
+} from "@elearning-fliki/forms/src/schemas";
 import { TRPCError } from "@trpc/server";
 import * as bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
+import { IUser } from "@elearning-fliki/db/interfaces";
 
 export const authRoutes = router({
   users: publicProcedure.use(withMongoConnection).query(() => UserModel.find()),
+  user: publicProcedure
+    .use(withMongoConnection)
+    .input(formSchemaUser)
+    .query(({ input }) => UserModel.findOne({ email: input.email })),
   registerWithCredentials: publicProcedure
+    .use(withMongoConnection)
     .input(formSchemaRegister)
     .mutation(async ({ ctx, input }) => {
       const { email, password, name, role } = input;
@@ -29,6 +40,64 @@ export const authRoutes = router({
         password: passwordHash,
         name,
         role,
+      });
+
+      const token = sign(
+        {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+        },
+        process.env.NEXTAUTH_SECRET || "",
+      );
+
+      return {
+        user,
+        token,
+      };
+    }),
+
+  signIn: publicProcedure
+    .use(withMongoConnection)
+    .input(formSchemaSignIn)
+    .mutation(async ({ input }): Promise<{ token: string; user: IUser }> => {
+      const user = await UserModel.findOne({ email: input.email });
+      if (!user) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "User with this email already exists",
+        });
+      }
+      const isPasswordValid = bcrypt.compareSync(input.password, user.password);
+      if (!isPasswordValid) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Invalid email or password",
+        });
+      }
+      const token = sign(
+        {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+        },
+        process.env.NEXTAUTH_SECRET || "",
+      );
+
+      return {
+        user,
+        token,
+      };
+    }),
+  registerWithProvider: publicProcedure
+    .use(withMongoConnection)
+    .input(zodSchemaRegisterWithProvider)
+    .mutation(async ({ ctx, input }) => {
+      const { name, email } = input;
+      const user = await UserModel.create({
+        name,
+        email,
+        role: "student",
       });
 
       const token = sign(

@@ -10,3 +10,17 @@ export const formSchemaRegister = z.object({
     }),
   }),
 });
+
+export const formSchemaUser = z.object({
+  email: z.string(),
+});
+
+export const formSchemaSignIn = formSchemaRegister.pick({
+  email: true,
+  password: true,
+});
+
+export const zodSchemaRegisterWithProvider = z.object({
+  email: z.string().email(),
+  name: z.string().min(8, "Password must be at least 8 characters"),
+});
