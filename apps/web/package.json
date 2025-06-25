@@ -10,6 +10,7 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@elearning-fliki/forms": "workspace:*",
     "@elearning-fliki/trpc-client": "workspace:*",
     "next": "15.3.4",
     "react": "^19.0.0",
