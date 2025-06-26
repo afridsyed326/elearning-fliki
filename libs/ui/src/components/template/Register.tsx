@@ -1,39 +1,129 @@
 "use client";
 
-import { userFormRegister } from "@elearning-fliki/forms/src/register";
+import {
+  userFormRegister,
+  FormRegister,
+} from "@elearning-fliki/forms/src/register";
 import { trpcClient } from "@elearning-fliki/trpc-client/src/client";
 import { signIn } from "next-auth/react";
 import { AuthLayout } from "../organisms/AuthLayout";
+import { Label } from "../atoms/label";
+import { Input } from "../atoms/input";
+import { Button } from "../atoms/button";
+import { RadioGroup, RadioGroupItem } from "../atoms/radio-group";
+import { toast } from "sonner";
+import { TRPCClientError } from "@elearning-fliki/trpc-client/src/error";
 
 export default function Register() {
-  const { register, handleSubmit } = userFormRegister();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isLoading },
+  } = userFormRegister();
   const { mutateAsync } = trpcClient.auth.registerWithCredentials.useMutation();
+
+  const roleOptions = [
+    { value: "student", label: "Student" },
+    { value: "teacher", label: "Teacher" },
+  ];
+
+  const onSubmit = async (data: FormRegister) => {
+    try {
+      const user = await mutateAsync(data);
+      toast("Account created successfully!");
+      if (user) {
+        const res = await signIn("credentials", {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        });
+        if (res?.ok) {
+          window.location.href = "/";
+        } else {
+          toast.error("Login failed, " + res?.error);
+          // Optional: Show toast or set error message state
+        }
+      }
+    } catch (error: unknown) {
+      if (error instanceof TRPCClientError) {
+        toast.error(error.message);
+      } else {
+        toast.error("Unexpected error occurred");
+      }
+    }
+  };
 
   return (
     <AuthLayout title="Register">
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          const user = await mutateAsync(data);
-          if (user) {
-            signIn("credentials", {
-              email: data.email,
-              password: data.password,
+      <div className="p-5 flex flex-col  justify-center mx-auto w-[400px]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-2 mb-2 "
+        >
+          <Label title="Email" error={errors?.email?.message}>
+            <Input {...register("email")} placeholder="Email" />
+          </Label>
+          <Label title="Name" error={errors?.name?.message}>
+            <Input {...register("name")} placeholder="Name" />
+          </Label>
+
+          <Label title="Password" error={errors?.password?.message}>
+            <Input
+              {...register("password")}
+              type="password"
+              placeholder="Password"
+            />
+          </Label>
+          <RadioGroup
+            defaultValue="student"
+            className="flex items-center gap-2 justify-center bg-white p-2"
+            {...register("role")}
+          >
+            <Label title="Role" error={errors?.role?.message}>
+              I am a
+            </Label>
+            <div className="flex items-center gap-4">
+              {roleOptions.map((opt) => (
+                <div key={opt.value} className="flex items-center space-x-2">
+                  <RadioGroupItem value={opt.value} id={opt.value} />
+                  <Label htmlFor={opt.value} className="text-sm cursor-pointer">
+                    {opt.label}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </RadioGroup>
+          <Button type="submit" className=" " variant={"default"}>
+            Register
+          </Button>
+        </form>
+        <span className="text-sm text-muted-foreground text-center mb-2">
+          or
+        </span>
+        <Button
+          type="button"
+          variant={"outline"}
+          className="gap-3 "
+          onClick={() =>
+            signIn("google", {
               callbackUrl: "/",
-            });
+            })
           }
-        })}
-        className="grid grid-cols-2 bg-slate-600"
-      >
-        <input {...register("email")} placeholder="email" />
-        <input {...register("name")} placeholder="name" />
-        <input
-          {...register("password")}
-          type="password"
-          placeholder="password"
-        />
-        <input {...register("role")} placeholder="role" />
-        <button type="submit">Register</button>
-      </form>
+        >
+          <img src="google.svg" className="w-6" alt="Google Login" />
+          Sign Up with Google
+        </Button>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-muted-foreground">
+            Already have an account?
+          </span>
+          <a href="/signin">
+            <Button variant={"link"} className="text-sm" loading={isLoading}>
+              Sign In
+            </Button>
+          </a>
+        </div>
+      </div>
     </AuthLayout>
   );
 }

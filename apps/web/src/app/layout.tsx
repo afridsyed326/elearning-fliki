@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Provider } from "@elearning-fliki/trpc-client/src/Provider";
 import { SessionProvider } from "@elearning-fliki/ui/src/components/molecules/SessionProvider";
+import { Toaster } from "@elearning-fliki/ui/src/components/atoms/sonner";
 import "@elearning-fliki/ui/src/index.css";
 
 const geistSans = Geist({
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <Provider>{children}</Provider>
+          <Toaster position="top-center" className="!bg-white" />
         </SessionProvider>
       </body>
     </html>

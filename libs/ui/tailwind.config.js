@@ -78,7 +78,7 @@ module.exports = {
           950: "hsl(var(--red-950) / <alpha-value>)",
         },
         primary: {
-          DEFAULT: "hsl(var(--blue-600) / <alpha-value>)",
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
           50: "hsl(var(--blue-50) / <alpha-value>)",
           100: "hsl(var(--blue-100) / <alpha-value>)",
           200: "hsl(var(--blue-200) / <alpha-value>)",

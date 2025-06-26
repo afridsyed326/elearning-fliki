@@ -65,7 +65,7 @@ export const authRoutes = router({
       if (!user) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "User with this email already exists",
+          message: "Invalid email or password",
         });
       }
       const isPasswordValid = bcrypt.compareSync(input.password, user.password);
@@ -108,6 +108,10 @@ export const authRoutes = router({
         },
         process.env.NEXTAUTH_SECRET || "",
       );
+
+      console.log({
+        user,
+      });
 
       return {
         user,
