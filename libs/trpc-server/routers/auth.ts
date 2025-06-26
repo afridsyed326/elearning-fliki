@@ -1,5 +1,5 @@
 import { UserModel } from "@elearning-fliki/db/models/UserModel";
-import { privateProcedure, publicProcedure, router } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 import { withMongoConnection } from "../middleware/dbConnection";
 import {
   formSchemaRegister,
@@ -21,7 +21,7 @@ export const authRoutes = router({
   registerWithCredentials: publicProcedure
     .use(withMongoConnection)
     .input(formSchemaRegister)
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const { email, password, name, role } = input;
 
       const existingUser = await UserModel.findOne({ email });
@@ -92,7 +92,7 @@ export const authRoutes = router({
   registerWithProvider: publicProcedure
     .use(withMongoConnection)
     .input(zodSchemaRegisterWithProvider)
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const { name, email } = input;
       const user = await UserModel.create({
         name,

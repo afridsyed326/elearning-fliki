@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { Provider } from "@elearning-fliki/trpc-client/src/Provider";
-import { SessionProvider } from "./components/SessionProvider";
+import { SessionProvider } from "@elearning-fliki/ui/src/components/molecules/SessionProvider";
+import "@elearning-fliki/ui/src/index.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
