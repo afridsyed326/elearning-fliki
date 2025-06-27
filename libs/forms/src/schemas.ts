@@ -22,5 +22,5 @@ export const formSchemaSignIn = formSchemaRegister.pick({
 
 export const zodSchemaRegisterWithProvider = z.object({
   email: z.string().email(),
-  name: z.string().min(8, "Password must be at least 8 characters"),
+  name: z.string(),
 });

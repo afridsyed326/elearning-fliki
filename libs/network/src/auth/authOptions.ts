@@ -51,13 +51,14 @@ export const authOptions: NextAuthOptions = {
       if (!token) {
         throw new Error("Token is required for encoding");
       }
-      const { sub, picture, ...tokenProps } = token;
+      const { sub, picture, role, id, ...tokenProps } = token;
       const nowInSeconds = Math.floor(Date.now() / 1000);
       const expirationTimeStamp = nowInSeconds + MAX_AGE;
       return sign(
         {
           id: sub,
           image: picture,
+          role,
           ...tokenProps,
           exp: expirationTimeStamp,
         },
@@ -99,6 +100,16 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
+    async jwt({ token, user }) {
+      // When user first logs in
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.role = (user as any).role || "student"; // <-- store role
+      }
+      return token;
+    },
 
     async session({ session, token }) {
       if (!token) {
@@ -106,7 +117,7 @@ export const authOptions: NextAuthOptions = {
       }
       session.user = {
         // @ts-ignore
-        id: token.sub,
+        id: token.id,
         email: token.email,
         name: token.name,
         role: token.role,

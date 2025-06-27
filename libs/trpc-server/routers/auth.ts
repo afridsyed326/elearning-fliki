@@ -109,10 +109,6 @@ export const authRoutes = router({
         process.env.NEXTAUTH_SECRET || "",
       );
 
-      console.log({
-        user,
-      });
-
       return {
         user,
         token,
