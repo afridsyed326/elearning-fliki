@@ -9,11 +9,11 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Hello, Mars!");
+    res.send("Hello, Mars!");
 });
 
 app.use("/trpc", trpcExpress);
 
 app.listen(8080, () => {
-  console.log("Server is running on http://localhost:8080");
+    console.log("Server is running on http://localhost:8080");
 });

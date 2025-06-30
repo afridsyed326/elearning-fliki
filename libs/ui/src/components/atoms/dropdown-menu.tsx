@@ -3,28 +3,28 @@
 import { useState, useRef, useEffect } from "react";
 
 interface DropdownProps {
-  label: string | React.ReactNode;
-  items: { label: string; onClick: () => void }[];
+    label: string | React.ReactNode;
+    items: { label: string; onClick: () => void }[];
 }
 
 export function Dropdown({ label, items }: DropdownProps) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+    const [open, setOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent) {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
+                setOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
-  return (
-    <div className="relative inline-block text-left" ref={ref}>
-      {/* <button
+    return (
+        <div className="relative inline-block text-left" ref={ref}>
+            {/* <button
                 onClick={() => setOpen((prev) => !prev)}
                 className="inline-flex justify-center items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none"
             >
@@ -44,28 +44,28 @@ export function Dropdown({ label, items }: DropdownProps) {
                 </svg>
             </button> */}
 
-      <div onClick={() => setOpen((prev) => !prev)} className="cursor-pointer">
-        {label}
-      </div>
+            <div onClick={() => setOpen((prev) => !prev)} className="cursor-pointer">
+                {label}
+            </div>
 
-      {open && (
-        <div className="absolute right-0 z-10 mt-2 w-44 border origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-          <div className="py-1">
-            {items.map((item, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  item.onClick();
-                  setOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+            {open && (
+                <div className="absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md border bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="py-1">
+                        {items.map((item, index) => (
+                            <button
+                                key={index}
+                                onClick={() => {
+                                    item.onClick();
+                                    setOpen(false);
+                                }}
+                                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                {item.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }

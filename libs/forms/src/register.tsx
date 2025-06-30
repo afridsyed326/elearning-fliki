@@ -8,6 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export type FormRegister = z.infer<typeof formSchemaRegister>;
 
 export const userFormRegister = () =>
-  useForm<FormRegister>({
-    resolver: zodResolver(formSchemaRegister),
-  });
+    useForm<FormRegister>({
+        resolver: zodResolver(formSchemaRegister),
+    });

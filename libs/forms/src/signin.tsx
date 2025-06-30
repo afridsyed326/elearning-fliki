@@ -8,6 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export type FormTypeSignin = z.infer<typeof formSchemaSignIn>;
 
 export const userFormSignIn = () =>
-  useForm<FormTypeSignin>({
-    resolver: zodResolver(formSchemaSignIn),
-  });
+    useForm<FormTypeSignin>({
+        resolver: zodResolver(formSchemaSignIn),
+    });

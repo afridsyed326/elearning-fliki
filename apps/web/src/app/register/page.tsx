@@ -4,11 +4,11 @@ import { getAuth } from "@elearning-fliki/network/src/auth/authOptions";
 import { redirect } from "next/navigation";
 
 const page = async () => {
-  const auth = await getAuth();
-  if (auth?.user) {
-    redirect("/");
-  }
-  return <Register />;
+    const auth = await getAuth();
+    if (auth?.user) {
+        redirect("/");
+    }
+    return <Register />;
 };
 
 export default page;

@@ -1,28 +1,28 @@
 {
-  "name": "@elearning-fliki/api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "build": "rm -rf ./dist && tsc",
-    "tsc": "tsc --noEmit",
-    "start": "node dist/src/index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.12.2",
-  "dependencies": {
-    "@elearning-fliki/trpc-server": "workspace:*",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
-  }
+    "name": "@elearning-fliki/api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsx watch src/index.ts",
+        "build": "rm -rf ./dist && tsc",
+        "tsc": "tsc --noEmit",
+        "start": "node dist/src/index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.12.2",
+    "dependencies": {
+        "@elearning-fliki/trpc-server": "workspace:*",
+        "cors": "^2.8.5",
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.3",
+        "tsx": "^4.20.3",
+        "typescript": "^5.8.3"
+    }
 }

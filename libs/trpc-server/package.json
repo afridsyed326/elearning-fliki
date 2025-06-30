@@ -1,23 +1,23 @@
 {
-  "name": "@elearning-fliki/trpc-server",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.12.2",
-  "dependencies": {
-    "@elearning-fliki/db": "workspace:*",
-    "@elearning-fliki/forms": "workspace:*",
-    "@trpc/server": "^11.4.2",
-    "bcryptjs": "^3.0.2",
-    "jsonwebtoken": "^9.0.2"
-  },
-  "devDependencies": {
-    "@types/bcryptjs": "^3.0.0",
-    "@types/jsonwebtoken": "^9.0.10"
-  }
+    "name": "@elearning-fliki/trpc-server",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.12.2",
+    "dependencies": {
+        "@elearning-fliki/db": "workspace:*",
+        "@elearning-fliki/forms": "workspace:*",
+        "@trpc/server": "^11.4.2",
+        "bcryptjs": "^3.0.2",
+        "jsonwebtoken": "^9.0.2"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^3.0.0",
+        "@types/jsonwebtoken": "^9.0.10"
+    }
 }

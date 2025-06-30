@@ -1,24 +1,24 @@
 {
-  "name": "@elearning-fliki/network",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.12.2",
-  "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.10",
-    "next-auth": "^4.24.11"
-  },
-  "peerDependencies": {
-    "next-auth": "^4.24.11"
-  },
-  "dependencies": {
-    "@elearning-fliki/trpc-client": "workspace:*",
-    "jsonwebtoken": "^9.0.2"
-  }
+    "name": "@elearning-fliki/network",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.12.2",
+    "devDependencies": {
+        "@types/jsonwebtoken": "^9.0.10",
+        "next-auth": "^4.24.11"
+    },
+    "peerDependencies": {
+        "next-auth": "^4.24.11"
+    },
+    "dependencies": {
+        "@elearning-fliki/trpc-client": "workspace:*",
+        "jsonwebtoken": "^9.0.2"
+    }
 }
