@@ -91,17 +91,25 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             if (account?.provider === "google") {
                 const { name, email } = user;
-                const existingUser = await trpc.auth.user.query({
+
+                // @ts-ignore
+                let dbUser: any = await trpc.auth.user.query({
                     email: email!,
                 });
 
-                if (!existingUser) {
-                    await trpc.auth.registerWithProvider.mutate({
+                // 2. If not, register a new one
+                if (!dbUser) {
+                    const res = await trpc.auth.registerWithProvider.mutate({
                         email: email || "",
                         name: name || "",
                     });
+                    dbUser = res.user;
                 }
+
+                user.id = dbUser._id.toString();
+                user.role = dbUser.role;
             }
+
             return true;
         },
         async jwt({ token, user }) {
@@ -110,7 +118,7 @@ export const authOptions: NextAuthOptions = {
                 token.id = user.id;
                 token.name = user.name;
                 token.email = user.email;
-                token.role = (user as any).role || "student"; // <-- store role
+                token.role = (user as any).role; // <-- store role
             }
             return token;
         },
@@ -119,12 +127,15 @@ export const authOptions: NextAuthOptions = {
             if (!token) {
                 throw new Error("Token is required for session callback");
             }
+            const dbUser = await trpc.auth.user.query({
+                email: token?.email || "",
+            });
             session.user = {
                 // @ts-ignore
                 id: token.id,
                 email: token.email,
-                name: token.name,
-                role: token.role,
+                name: dbUser?.name || token.email,
+                role: dbUser?.role || token.role,
             };
             return session;
         },

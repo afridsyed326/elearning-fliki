@@ -7,6 +7,7 @@ import {
     formSchemaUser,
     zodSchemaDefineRole,
     zodSchemaRegisterWithProvider,
+    zUser,
 } from "@elearning-fliki/forms/src/schemas";
 import { TRPCError } from "@trpc/server";
 import * as bcrypt from "bcryptjs";
@@ -18,7 +19,10 @@ export const authRoutes = router({
     user: publicProcedure
         .use(withMongoConnection)
         .input(formSchemaUser)
-        .query(({ input }) => UserModel.findOne({ email: input.email })),
+        .output(zUser.nullable())
+        .query(async ({ input }) => {
+            return await UserModel.findOne({ email: input.email });
+        }),
     registerWithCredentials: publicProcedure
         .use(withMongoConnection)
         .input(formSchemaRegister)
@@ -98,7 +102,6 @@ export const authRoutes = router({
             const user = await UserModel.create({
                 name,
                 email,
-                role: "student",
             });
             const userData = {
                 id: user._id.toString(),

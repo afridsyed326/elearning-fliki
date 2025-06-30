@@ -2,9 +2,14 @@ import { getAuth } from "@elearning-fliki/network/src/auth/authOptions";
 import { Button } from "@elearning-fliki/ui/src/components/atoms/button";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function LandingPage() {
     const auth = await getAuth();
+
+    if (auth?.user && !auth.user.role) {
+        return redirect("/user-role");
+    }
 
     return (
         <main className="min-h-screen w-full bg-white text-gray-900">

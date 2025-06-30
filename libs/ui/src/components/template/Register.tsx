@@ -10,9 +10,11 @@ import { Button } from "../atoms/button";
 import { RadioGroup, RadioGroupItem } from "../atoms/radio-group";
 import { toast } from "sonner";
 import { TRPCClientError } from "@elearning-fliki/trpc-client/src/error";
+import { Controller } from "react-hook-form";
 
 export default function Register() {
     const {
+        control,
         register,
         handleSubmit,
         formState: { errors, isLoading },
@@ -64,25 +66,38 @@ export default function Register() {
                     <Label title="Password" error={errors?.password?.message}>
                         <Input {...register("password")} type="password" placeholder="Password" />
                     </Label>
-                    <RadioGroup
+                    <Controller
+                        control={control}
+                        name="role"
                         defaultValue="student"
-                        className="flex items-center justify-center gap-2 bg-white p-2"
-                        {...register("role")}
-                    >
-                        <Label title="Role" error={errors?.role?.message}>
-                            I am a
-                        </Label>
-                        <div className="flex items-center gap-4">
-                            {roleOptions.map((opt) => (
-                                <div key={opt.value} className="flex items-center space-x-2">
-                                    <RadioGroupItem value={opt.value} id={opt.value} />
-                                    <Label htmlFor={opt.value} className="cursor-pointer text-sm">
-                                        {opt.label}
-                                    </Label>
+                        render={({ field }) => (
+                            <RadioGroup
+                                className="flex items-center justify-center gap-2 bg-white p-2"
+                                onValueChange={field.onChange}
+                                value={field.value}
+                            >
+                                <Label title="Role" error={errors?.role?.message}>
+                                    I am a
+                                </Label>
+                                <div className="flex items-center gap-4">
+                                    {roleOptions.map((opt) => (
+                                        <div
+                                            key={opt.value}
+                                            className="flex items-center space-x-2"
+                                        >
+                                            <RadioGroupItem value={opt.value} id={opt.value} />
+                                            <Label
+                                                htmlFor={opt.value}
+                                                className="cursor-pointer text-sm"
+                                            >
+                                                {opt.label}
+                                            </Label>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </RadioGroup>
+                            </RadioGroup>
+                        )}
+                    />
                     <Button type="submit" className=" " variant={"default"}>
                         Register
                     </Button>
