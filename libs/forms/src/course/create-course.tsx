@@ -1,7 +1,12 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { createCourseSchema, CreateCourseValues } from "./schemas";
+import {
+    aiGenerateInput,
+    createCourseSchema,
+    CreateCourseValues,
+    GenearteAICourseValues,
+} from "./schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // export const userCreateCourseForm = () =>
@@ -26,4 +31,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export const userCreateCourseForm = () =>
     useForm<CreateCourseValues>({
         resolver: zodResolver(createCourseSchema),
+    });
+
+export const useGenerateAICourseForm = () =>
+    useForm<GenearteAICourseValues>({
+        resolver: zodResolver(aiGenerateInput),
     });

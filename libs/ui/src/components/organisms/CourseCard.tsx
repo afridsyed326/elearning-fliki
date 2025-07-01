@@ -1,4 +1,5 @@
 import { TCourse } from "../../lib/types";
+import CourseImage from "../atoms/course-image";
 
 type CourseCardProps = {
     course: TCourse;
@@ -7,7 +8,13 @@ type CourseCardProps = {
 export default function CourseCard({ course }: CourseCardProps) {
     return (
         <div className="space-y-3 rounded-lg border bg-white p-6 shadow-sm transition hover:shadow-md">
-            <img src={course.thumbnailUrl} alt={course.title} className="w-100 h-64 object-cover" />
+            <div className="flex justify-center">
+                <CourseImage
+                    src={course.thumbnailUrl}
+                    alt={course.title}
+                    className="w-100 h-64 object-center"
+                />
+            </div>
             <div className="flex items-start justify-between">
                 <div>
                     <h2 className="text-xl font-semibold text-gray-900">{course.title}</h2>

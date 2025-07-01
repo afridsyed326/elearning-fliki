@@ -10,16 +10,17 @@ import {
     courseSlugInput,
     courseEnrollInput,
     createCourseSchema,
+    aiGenerateInput,
 } from "@elearning-fliki/forms/src/course/schemas";
+import { generateCourseFromPrompt } from "@elearning-fliki/ai/generateCourse";
 
 export const courseRoutes = router({
-    courses: publicProcedure
-        .use(withMongoConnection)
-        // .output(coursesSchema)
-        .query(async () => {
-            return await CourseModel.find().populate("teacher").exec();
-            //   return courses.map(course => course.toObject());
-        }),
+    courses: publicProcedure.use(withMongoConnection).query(async () => {
+        return await CourseModel.find().populate("teacher").exec();
+    }),
+    topCourses: publicProcedure.use(withMongoConnection).query(async () => {
+        return await CourseModel.find().populate("teacher").limit(3).exec();
+    }),
     course: publicProcedure
         .use(withMongoConnection)
         .input(courseSlugInput)
@@ -44,4 +45,11 @@ export const courseRoutes = router({
         .query(async ({ ctx, input }) => {
             return await getCourseProgress(ctx.userId, input.course);
         }),
+    generate: privateTeacherProcedure.input(aiGenerateInput).mutation(async ({ input }) => {
+        const generatedCourse = await generateCourseFromPrompt(input.prompt, {
+            name: "",
+            email: "",
+        });
+        return generatedCourse;
+    }),
 });

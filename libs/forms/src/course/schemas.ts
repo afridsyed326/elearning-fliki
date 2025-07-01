@@ -47,3 +47,5 @@ export const coursesSchema = z.array(courseSchema);
 
 export const courseSlugInput = z.object({ slug: z.string() });
 export const courseEnrollInput = z.object({ course: z.string() });
+export const aiGenerateInput = z.object({ prompt: z.string() });
+export type GenearteAICourseValues = z.infer<typeof aiGenerateInput>;

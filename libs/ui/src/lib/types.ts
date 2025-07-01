@@ -23,6 +23,7 @@ export type TCourse = {
         name: string;
         email: string;
     };
+    isPublished: string;
     createdAt: string;
     lessons: TLesson[];
 };
