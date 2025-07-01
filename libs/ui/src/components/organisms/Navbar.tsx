@@ -13,7 +13,7 @@ const Navbar = ({ pathname }: { pathname: string }) => {
         <div className="mb-14">
             <div className="fixed top-0 flex w-full items-center justify-between bg-transparent bg-white p-3 backdrop-blur-md">
                 <div>
-                    <img src="logo.png" alt="eLearning" className="w-32" />
+                    <img src="/logo.png" alt="eLearning" className="w-32" />
                 </div>
                 {session?.user ? (
                     <div className="flex items-center gap-2">

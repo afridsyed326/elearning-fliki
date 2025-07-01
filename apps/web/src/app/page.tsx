@@ -1,8 +1,11 @@
 import { getAuth } from "@elearning-fliki/network/src/auth/authOptions";
+import { trpc } from "@elearning-fliki/trpc-client/src";
 import { Button } from "@elearning-fliki/ui/src/components/atoms/button";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import CourseCard from "@elearning-fliki/ui/src/components/organisms/CourseCard";
+import { TCourse } from "@elearning-fliki/ui/src/lib/types";
 
 export default async function LandingPage() {
     const auth = await getAuth();
@@ -10,6 +13,8 @@ export default async function LandingPage() {
     if (auth?.user && !auth.user.role) {
         return redirect("/user-role");
     }
+
+    const courses = await trpc.course.courses.query();
 
     return (
         <main className="min-h-screen w-full bg-white text-gray-900">
@@ -78,6 +83,12 @@ export default async function LandingPage() {
                         ))}
                     </div>
                 </div>
+            </section>
+
+            <section className="grid grid-cols-3 gap-5 px-6">
+                {courses.map((course: TCourse) => (
+                    <CourseCard key={course._id} course={course} />
+                ))}
             </section>
 
             {/* How it works */}

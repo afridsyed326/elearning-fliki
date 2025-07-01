@@ -9,6 +9,7 @@ export interface ILesson {
 
 export interface ICourse extends Document {
     title: string;
+    thumbnailUrl: string;
     description: string;
     teacher: mongoose.Types.ObjectId;
     lessons: ILesson[];

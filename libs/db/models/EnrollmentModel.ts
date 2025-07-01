@@ -1,5 +1,4 @@
-// apps/server/src/models/Enrollment.ts
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { IEnrollment } from "../interfaces";
 
 const enrollmentSchema = new Schema<IEnrollment>({

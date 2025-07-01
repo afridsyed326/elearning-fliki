@@ -9,7 +9,7 @@ interface LabelProps extends React.ComponentProps<typeof LabelPrimitive.Root> {
     error?: React.ReactNode;
 }
 
-function Label({ className, labelText, children, error, ...props }: LabelProps) {
+function Label({ className, labelText, children, error, title, ...props }: LabelProps) {
     return (
         <LabelPrimitive.Root
             data-slot="label"
@@ -19,7 +19,7 @@ function Label({ className, labelText, children, error, ...props }: LabelProps) 
             )}
             {...props}
         >
-            {labelText && <div className="mb-2">{labelText}</div>}
+            {(labelText || title) && <div className="mb-2">{labelText || title}</div>}
             {children}
             {error && <div className="mt-2 font-normal text-red-500">{error}</div>}
         </LabelPrimitive.Root>

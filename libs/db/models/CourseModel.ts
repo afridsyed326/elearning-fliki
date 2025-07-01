@@ -1,5 +1,4 @@
-// apps/server/src/models/Course.ts
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { ICourse, ILesson } from "../interfaces";
 
 const lessonSchema = new Schema<ILesson>({
@@ -12,6 +11,10 @@ const lessonSchema = new Schema<ILesson>({
 const courseSchema = new Schema<ICourse>(
     {
         title: {
+            type: String,
+            required: true,
+        },
+        thumbnailUrl: {
             type: String,
             required: true,
         },

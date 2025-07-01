@@ -13,6 +13,7 @@
         "@elearning-fliki/forms": "workspace:*",
         "@elearning-fliki/network": "workspace:*",
         "@elearning-fliki/trpc-client": "workspace:*",
+        "@elearning-fliki/trpc-server": "workspace:*",
         "@elearning-fliki/ui": "workspace:*",
         "next": "15.3.4",
         "next-auth": "^4.24.11",

@@ -134,7 +134,9 @@ export const authOptions: NextAuthOptions = {
                 // @ts-ignore
                 id: token.id,
                 email: token.email,
+                // @ts-ignore
                 name: dbUser?.name || token.email,
+                // @ts-ignore
                 role: dbUser?.role || token.role,
             };
             return session;
