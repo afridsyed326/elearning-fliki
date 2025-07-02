@@ -13,7 +13,7 @@ export default async function RootLayout({
         return redirect("/teacher/courses");
     }
     return (
-        <div>
+        <div className="pt-16">
             <AuthedWrapper>{children}</AuthedWrapper>
         </div>
     );

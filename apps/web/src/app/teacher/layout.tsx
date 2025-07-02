@@ -11,5 +11,5 @@ export default async function TeacherLayout({
     if (auth?.user?.role !== "teacher") {
         return redirect("/courses");
     }
-    return <div>{children}</div>;
+    return <div className="pt-16">{children}</div>;
 }

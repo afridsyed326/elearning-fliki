@@ -36,9 +36,7 @@ export default async function RootLayout({
                 <SessionProvider>
                     <TRPCProvider>
                         <NavbarWrapper />
-                        <div className="bg-[url('/bg.jpg')] bg-cover bg-no-repeat pt-16">
-                            {children}
-                        </div>
+                        <div className="bg-[url('/bg.jpg')] bg-cover bg-no-repeat">{children}</div>
                     </TRPCProvider>
                     <Toaster position="top-center" className="!bg-white" />
                 </SessionProvider>

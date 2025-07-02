@@ -11,7 +11,7 @@ const Navbar = ({ pathname }: { pathname: string }) => {
     }
     return (
         <div className="">
-            <div className="fixed left-[80px] right-[80px] top-0 flex items-center justify-between rounded-b-lg bg-white/80 p-3 backdrop-blur-md">
+            <div className="fixed left-[80px] right-[80px] top-0 flex items-center justify-between rounded-b-lg bg-white/90 p-3 backdrop-blur-md">
                 <a href="/">
                     <div>
                         <img
