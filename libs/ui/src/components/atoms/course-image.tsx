@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 
 type Props = {
     src: string;
-    className: string;
+    className?: string;
     alt?: string;
 };
 

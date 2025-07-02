@@ -10,22 +10,33 @@ const Navbar = ({ pathname }: { pathname: string }) => {
         return <></>;
     }
     return (
-        <div className="mb-14">
-            <div className="fixed top-0 flex w-full items-center justify-between bg-transparent bg-white p-3 backdrop-blur-md">
+        <div className="">
+            <div className="fixed left-[80px] right-[80px] top-0 flex items-center justify-between rounded-b-lg bg-white/80 p-3 backdrop-blur-md">
                 <a href="/">
                     <div>
-                        <img src="/logo.png" alt="eLearning" className="w-32" />
+                        <img
+                            src={
+                                session?.user.role === "teacher" ? "/logo-teacher.png" : "/logo.png"
+                            }
+                            alt="eLearning"
+                            className="w-32"
+                        />
                     </div>
                 </a>
                 {session?.user ? (
                     <div className="flex items-center gap-2">
                         {session.user.role === "student" ? (
-                            <Button>View Enrolled Courses</Button>
+                            <a href="/courses/enrolled">
+                                <Button>View Enrolled Courses</Button>
+                            </a>
                         ) : (
-                            <Button>Teachers Platform</Button>
+                            <a href="/teacher/courses">
+                                <Button>Teachers Platform</Button>
+                            </a>
                         )}
                         <div>
-                            Hi! <span className="font-bold italic">{session?.user.name}</span>
+                            Welcome Back!{" "}
+                            <span className="font-bold italic">{session?.user.name}</span>
                         </div>
                         <Dropdown
                             label={<CircleUserRound className="text-primary" />}
@@ -38,7 +49,13 @@ const Navbar = ({ pathname }: { pathname: string }) => {
                                     label: "Settings",
                                     onClick: () => alert("Open Settings"),
                                 },
-                                { label: "Logout", onClick: () => signOut() },
+                                {
+                                    label: "Logout",
+                                    onClick: async () => {
+                                        await signOut();
+                                        window.location.href = "/";
+                                    },
+                                },
                             ]}
                         />
                     </div>

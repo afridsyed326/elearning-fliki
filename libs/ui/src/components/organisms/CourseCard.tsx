@@ -3,11 +3,12 @@ import CourseImage from "../atoms/course-image";
 
 type CourseCardProps = {
     course: TCourse;
+    teacherAccess?: boolean;
 };
 
-export default function CourseCard({ course }: CourseCardProps) {
+export default function CourseCard({ course, teacherAccess }: CourseCardProps) {
     return (
-        <div className="space-y-3 rounded-lg border bg-white p-6 shadow-sm transition hover:shadow-md">
+        <div className="space-y-3 rounded-xl border-2 bg-white p-6 shadow-sm transition hover:shadow-md">
             <div className="flex justify-center">
                 <CourseImage
                     src={course.thumbnailUrl}
@@ -31,13 +32,22 @@ export default function CourseCard({ course }: CourseCardProps) {
                 <p>📝 Lessons: {course.lessons.length}</p>
             </div>
 
-            <div className="pt-2">
+            <div className="flex justify-between pt-2">
                 <a
-                    href={`/courses/${course._id}`}
+                    href={
+                        teacherAccess ? `/teacher/courses/${course._id}` : `/courses/${course._id}`
+                    }
                     className="inline-block text-sm font-medium text-blue-600 hover:underline"
                 >
                     View Course →
                 </a>
+                {teacherAccess && (
+                    <div
+                        className={`rounded-full border px-2 py-1 text-xs font-semibold ${course.isPublished ? "border-green-600 bg-green-100 text-green-800" : "border-red-600 bg-red-100 text-red-600"}`}
+                    >
+                        {course.isPublished ? "Published" : "Not published"}
+                    </div>
+                )}
             </div>
         </div>
     );

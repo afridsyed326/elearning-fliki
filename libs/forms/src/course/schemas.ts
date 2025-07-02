@@ -23,7 +23,24 @@ export const createCourseSchema = z.object({
     isPublished: z.string(),
 });
 
+export const editCourseSchema = z.object({
+    _id: z.string(),
+    title: z.string(),
+    thumbnailUrl: z.string(),
+    description: z.string(),
+    lessons: z.array(
+        z.object({
+            title: z.string(),
+            content: z.string(),
+            order: z.number(),
+            videoUrl: z.string().optional(),
+        })
+    ),
+    isPublished: z.string(),
+});
+
 export type CreateCourseValues = z.infer<typeof createCourseSchema>;
+export type EditCourseValues = z.infer<typeof editCourseSchema>;
 
 // If teacher is a full User object when populated
 export const teacherSchema = z.object({

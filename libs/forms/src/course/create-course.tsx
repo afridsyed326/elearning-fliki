@@ -6,6 +6,8 @@ import {
     createCourseSchema,
     CreateCourseValues,
     GenearteAICourseValues,
+    EditCourseValues,
+    editCourseSchema,
 } from "./schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -31,6 +33,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export const userCreateCourseForm = () =>
     useForm<CreateCourseValues>({
         resolver: zodResolver(createCourseSchema),
+    });
+
+export const userEditCourseForm = () =>
+    useForm<EditCourseValues>({
+        resolver: zodResolver(editCourseSchema),
     });
 
 export const useGenerateAICourseForm = () =>

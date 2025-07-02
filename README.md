@@ -5,14 +5,16 @@ This is a monorepo for the Elearning Fliki project, containing both backend and 
 ## Project Structure
 
 ```
-.
 ├── apps/
 │   ├── api/           # Express + tRPC backend
 │   └── web/           # Next.js frontend
 ├── libs/
-│   ├── db/            # Shared database logic/types
-│   ├── trpc-client/   # tRPC client setup
-│   └── trpc-server/   # tRPC server setup and routers
+│   ├── db/ # Shared database logic/types
+│   ├── trpc-client/ # tRPC client setup
+│   ├── trpc-server/ # tRPC server setup and routers
+│   ├── forms/ # shared forms library
+│   ├── network/ # for auth options
+│   ├── ai/ # openai util library
 ├── .husky/            # Git hooks
 ├── nx.json            # Nx configuration
 ├── package.json       # Root dependencies and scripts
@@ -69,3 +71,8 @@ Run linting across the workspace:
 ```sh
 pnpm lint
 ```
+
+todo:
+[ ] - Courses page, student & teacher
+[ ] - Teacher - update courses
+[ ] - Student update course progress

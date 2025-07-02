@@ -11,6 +11,7 @@ type FullCourseViewerProps = {
 };
 
 export default function FullCourseViewer({ course, studentEnrollment }: FullCourseViewerProps) {
+    console.log({ studentEnrollment });
     const [activeLesson, setActiveLesson] = useState<TLesson | null>(
         course.lessons.length > 0 ? course.lessons[0] : null
     );
@@ -18,7 +19,7 @@ export default function FullCourseViewer({ course, studentEnrollment }: FullCour
     const { mutateAsync } = trpcClient.course.enroll.useMutation();
 
     return (
-        <div className="mx-auto max-w-6xl space-y-6 p-6">
+        <div className="mx-auto max-w-6xl space-y-6 rounded-lg bg-white/90 p-6">
             <header>
                 <h1 className="text-3xl font-bold">{course.title}</h1>
                 <p className="mt-1 text-gray-600">{course.description}</p>

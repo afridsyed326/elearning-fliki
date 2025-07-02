@@ -17,14 +17,14 @@ export default async function LandingPage() {
     const courses = await trpc.course.topCourses.query();
 
     return (
-        <main className="min-h-screen w-full bg-white text-gray-900">
+        <main className="min-h-screen w-full px-5 pt-2 text-gray-900">
             {/* Hero Section */}
-            <section className="w-full bg-gradient-to-br from-blue-50 to-blue-100 px-6 py-20">
+            <section className="w-full rounded-[15px] bg-[url('/learn.webp')] bg-cover bg-no-repeat px-6 py-40 text-white">
                 <div className="mx-auto max-w-6xl text-center">
                     <h1 className="mb-4 text-4xl font-bold md:text-6xl">
                         Learn Anything, Teach Everything{" "}
                     </h1>
-                    <p className="mx-auto mb-6 max-w-2xl text-lg text-gray-600 md:text-xl">
+                    <p className="mx-auto mb-6 max-w-2xl text-lg md:text-xl">
                         A modern learning platform where teachers can generate courses using AI and
                         students can learn at their own pace.
                     </p>
@@ -45,7 +45,7 @@ export default async function LandingPage() {
             </section>
 
             {/* Features */}
-            <section className="bg-white px-6 py-20">
+            <section className="px-6 py-20">
                 <div className="mx-auto max-w-6xl text-center">
                     <h2 className="mb-10 text-3xl font-semibold">What You Can Do</h2>
                     <div className="grid gap-10 md:grid-cols-3">
@@ -87,7 +87,7 @@ export default async function LandingPage() {
 
             <section className="mx-auto text-center">
                 <h2 className="mb-12 text-3xl font-semibold">Featured Courses</h2>
-                <div className="grid grid-cols-3 gap-5 px-6">
+                <div className="grid gap-5 px-6 sm:grid-cols-3">
                     {courses.map((course: TCourse) => (
                         <CourseCard key={course._id} course={course} />
                     ))}
@@ -95,8 +95,8 @@ export default async function LandingPage() {
             </section>
 
             {/* How it works */}
-            <section className="bg-blue-50 px-6 py-20">
-                <div className="mx-auto max-w-6xl text-center">
+            <section className="px-6 py-10">
+                <div className="mx-auto max-w-6xl rounded-[15px] bg-white/50 p-10 text-center shadow-lg">
                     <h2 className="mb-12 text-3xl font-semibold">How It Works</h2>
                     <div className="flex flex-col items-center justify-between gap-10 text-left md:flex-row">
                         <div className="flex-1">
@@ -120,7 +120,7 @@ export default async function LandingPage() {
             </section>
 
             {/* Testimonials */}
-            <section className="bg-white px-6 py-20">
+            <section className="px-6 py-20">
                 <div className="mx-auto max-w-4xl text-center">
                     <h2 className="mb-10 text-3xl font-semibold">What People Say</h2>
                     <div className="grid gap-8 md:grid-cols-2">
@@ -144,7 +144,7 @@ export default async function LandingPage() {
             </section>
 
             {/* Footer */}
-            <footer className="bg-gray-100 px-6 py-8 text-center text-sm text-gray-500">
+            <footer className="rounded-t-lg bg-gray-100 px-6 py-8 text-center text-sm text-gray-500">
                 &copy; {new Date().getFullYear()} Elearning Fliki. All rights reserved.
             </footer>
         </main>

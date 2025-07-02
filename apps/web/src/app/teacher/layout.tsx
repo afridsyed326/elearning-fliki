@@ -1,18 +1,15 @@
-import React from "react";
 import { getAuth } from "@elearning-fliki/network/src/auth/authOptions";
 import { redirect } from "next/navigation";
 
-type Props = {
+export default async function TeacherLayout({
+    children,
+}: Readonly<{
     children: React.ReactNode;
-};
-
-const AuthedWrapper = async ({ children }: Props) => {
+}>) {
     const auth = await getAuth();
 
-    if (!auth?.user) {
-        return redirect("/signin");
+    if (auth?.user?.role !== "teacher") {
+        return redirect("/courses");
     }
     return <div>{children}</div>;
-};
-
-export default AuthedWrapper;
+}

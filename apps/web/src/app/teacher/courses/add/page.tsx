@@ -10,7 +10,7 @@ const page = async () => {
         return redirect("/");
     }
     return (
-        <div className="h-full bg-slate-200">
+        <div className="h-full px-6">
             <CreateCourseForm />
         </div>
     );

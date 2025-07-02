@@ -13,9 +13,26 @@ export interface ICourse extends Document {
     description: string;
     teacher: mongoose.Types.ObjectId;
     lessons: ILesson[];
-    isPublished: boolean;
+    isPublished: boolean | string;
     createdAt: Date;
     updatedAt: Date;
+}
+
+export interface IPartialCourse {
+    _id?: string;
+    title?: string;
+    thumbnailUrl?: string;
+    description?: string;
+    teacher?: mongoose.Types.ObjectId;
+    lessons?: {
+        title?: string;
+        content?: string;
+        videoUrl?: string;
+        order?: number;
+    }[];
+    isPublished?: boolean | string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface IUser {

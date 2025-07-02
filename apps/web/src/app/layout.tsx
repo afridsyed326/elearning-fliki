@@ -5,6 +5,7 @@ import { SessionProvider } from "@elearning-fliki/ui/src/components/molecules/Se
 import { Toaster } from "@elearning-fliki/ui/src/components/atoms/sonner";
 import "@elearning-fliki/ui/src/index.css";
 import NavbarWrapper from "../_components/NavbarWrapper";
+import { getAuth } from "@elearning-fliki/network/src/auth/authOptions";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -21,18 +22,23 @@ export const metadata: Metadata = {
     description: "eLearnig Platform that is powered by AI",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const auth = await getAuth();
     return (
         <html lang="en">
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased role-${auth?.user?.role}`}
+            >
                 <SessionProvider>
                     <TRPCProvider>
                         <NavbarWrapper />
-                        <div className="">{children}</div>
+                        <div className="bg-[url('/bg.jpg')] bg-cover bg-no-repeat pt-16">
+                            {children}
+                        </div>
                     </TRPCProvider>
                     <Toaster position="top-center" className="!bg-white" />
                 </SessionProvider>

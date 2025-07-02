@@ -1,6 +1,6 @@
 "use client";
 import { CreateCourseValues } from "@elearning-fliki/forms/src/course/schemas";
-import { userCreateCourseForm } from "@elearning-fliki/forms/src/course/create-course";
+import { userEditCourseForm } from "@elearning-fliki/forms/src/course/create-course";
 import { useFieldArray } from "react-hook-form";
 import { Label } from "../atoms/label";
 import { Input } from "../atoms/input";
@@ -8,25 +8,25 @@ import { Textarea } from "../atoms/textarea";
 import { Button } from "../atoms/button";
 import { trpcClient } from "@elearning-fliki/trpc-client/src/client";
 import { Switch } from "../atoms/switch";
-import GenerateFromAI from "./GenerateFromAI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { TRPCClientError } from "@elearning-fliki/trpc-client/src/error";
 import CourseImage from "../atoms/course-image";
+import { TCourse } from "../../lib/types";
 
-export default function CreateCourseForm() {
+export default function EditCourseForm({ initialData }: { initialData: TCourse }) {
     const {
         control,
         register,
         handleSubmit,
         reset,
         getValues,
+        setValue,
         watch,
         formState: { errors },
-    } = userCreateCourseForm();
+    } = userEditCourseForm();
 
-    const { mutateAsync } = trpcClient.course.add.useMutation();
-    const [mockData, setMockData] = useState(true);
+    const { mutateAsync } = trpcClient.course.update.useMutation();
     const [isLoading, setIsLoading] = useState(false);
     const currentValues = getValues();
 
@@ -35,13 +35,21 @@ export default function CreateCourseForm() {
         name: "lessons",
     });
 
+    useEffect(() => {
+        reset({ ...initialData, isPublished: initialData.isPublished ? "on" : "off" });
+    }, [initialData]);
+
     const thumbnailUrl = watch("thumbnailUrl");
+    const isPublished = watch("isPublished");
 
     const onSubmit = async (values: CreateCourseValues) => {
         try {
             setIsLoading(true);
-            await mutateAsync(values);
-            toast.success("Course created!");
+            await mutateAsync({
+                ...values,
+                _id: initialData._id,
+            });
+            toast.success("Course updated!");
             window.location.href = "/teacher/courses";
         } catch (error: unknown) {
             if (error instanceof TRPCClientError) {
@@ -55,12 +63,9 @@ export default function CreateCourseForm() {
     };
 
     return (
-        <div className="items-center rounded-lg bg-white/90 px-6 sm:flex sm:h-[calc(100vh-60px)]">
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="mx-auto h-[calc(100vh-60px)] space-y-6 overflow-y-auto border-r border-black p-4 sm:w-[60%]"
-            >
-                <h2 className="text-2xl font-bold">Create New Course</h2>
+        <div className="rounded-lg bg-white/90 p-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="mx-auto space-y-6 p-4">
+                <h2 className="text-2xl font-bold">Edit Course</h2>
 
                 {/* Course Title */}
                 <div className="grid gap-2 sm:grid-cols-8">
@@ -80,7 +85,7 @@ export default function CreateCourseForm() {
                         <CourseImage
                             src={thumbnailUrl}
                             alt={currentValues.title}
-                            className="h-64 w-auto object-cover"
+                            className="h-64 w-64 object-cover"
                         />
                     </div>
                 </div>
@@ -174,7 +179,6 @@ export default function CreateCourseForm() {
                     ))}
 
                     <Button
-                        type="button"
                         onClick={() =>
                             append({
                                 title: "",
@@ -190,36 +194,26 @@ export default function CreateCourseForm() {
                     </Button>
                 </div>
 
-                <div className="bg-primary sticky bottom-0 flex w-full justify-between rounded-lg p-2 text-right shadow-2xl backdrop-blur-lg">
+                <div className="bg-primary sticky bottom-2 flex w-full justify-between rounded-lg p-2 text-right shadow-2xl backdrop-blur-lg">
                     <div className="flex items-center gap-2">
                         <Label
                             title="Publish"
                             error={errors.isPublished?.message}
                             className="mt-1 text-white"
                         />
-                        <Switch {...register("isPublished")} />
+                        <Switch
+                            {...register("isPublished")}
+                            onCheckedChange={(val) => {
+                                setValue("isPublished", val ? "on" : "off");
+                            }}
+                            checked={isPublished === "on"}
+                        />
                     </div>
                     <Button type="submit" variant={"secondary"} loading={isLoading}>
                         Save Course
                     </Button>
                 </div>
             </form>
-            <div className="text-center sm:w-[5%]">
-                <span className="rounded-lg bg-white px-2 py-1">Or</span>
-            </div>
-            <div className="sm:w-[35%]">
-                <div className="flex justify-end gap-2 px-5">
-                    <Label title="Mock Data"></Label>
-                    <Switch checked={mockData} onCheckedChange={(val) => setMockData(val)} />
-                </div>
-                <GenerateFromAI
-                    setValues={(values) => {
-                        // set form values
-                        reset(values);
-                    }}
-                    mockResult={mockData}
-                />
-            </div>
         </div>
     );
 }

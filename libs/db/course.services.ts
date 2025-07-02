@@ -1,4 +1,4 @@
-import { ICourse, IEnrollment } from "./interfaces";
+import { ICourse, IEnrollment, IPartialCourse } from "./interfaces";
 import { CourseModel } from "./models/CourseModel";
 import { Enrollment } from "./models/EnrollmentModel";
 
@@ -36,9 +36,14 @@ export async function createCourse(
  */
 export async function updateCourse(
     courseId: string,
-    updates: Partial<ICourse>
+    updates: IPartialCourse
 ): Promise<ICourse | null> {
-    return CourseModel.findByIdAndUpdate(courseId, updates, { new: true });
+    delete updates._id;
+    return CourseModel.findByIdAndUpdate(
+        courseId,
+        { ...updates, isPublished: updates.isPublished === "on" },
+        { new: true }
+    );
 }
 
 /**
@@ -55,6 +60,14 @@ export async function enrollStudent(studentId: string, courseId: string): Promis
         progress: 0,
         completedLessons: [],
     });
+}
+
+export async function enrolledCourses(studentId: string): Promise<ICourse[]> {
+    // Prevent duplicate enrollments
+    const enrollments = await Enrollment.find({ student: studentId }).populate<ICourse>(
+        "course course.teacher"
+    );
+    return enrollments.map((e) => e.course as unknown as ICourse);
 }
 
 export async function getCourseProgress(

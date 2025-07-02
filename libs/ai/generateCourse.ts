@@ -31,7 +31,8 @@ export const generateCourseFromPrompt = async (
         - The thumbnailUrl can be a placeholder like "https://source.unsplash.com/featured/?education".
         - Ensure lesson order starts from 1 and increments.
         - must return json that matches TCourse type only.
-        - dont fill image and video dummy urls, instead use empty string 
+        - dont fill image and video dummy urls, instead use empty string
+        - The content field inside ILesson must contain the 'how to' part of the lesson, so use minimum 150 words.
         Now generate a course on: "${prompt}".`;
 
     const completion = await openai.chat.completions.create({
